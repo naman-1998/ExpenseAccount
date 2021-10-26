@@ -1,22 +1,30 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { useHistory } from "react-router-dom";
-import useSession from "./useSession";
-const Header = () => {
+import { Menu, MenuItem } from "@mui/material";
+// import useSession from "./useSession";
+const Header = ({ isLogin, userDetails }) => {
   const history = useHistory();
-  const { isLogin, userDetails } = useSession();
-  const [show, setShow] = useState(false);
+  // const { isLogin, userDetails } = useSession();
+  // const [show, setShow] = useState(false);
+  const [anchorEl, setAnchorEl] = React.useState(null);
   const handleLink = (link) => {
     history.push(link);
+    setAnchorEl(null);
   };
-  useEffect(() => {
-    if (isLogin === true) setShow(true);
-  }, [isLogin]);
-  console.log(show,isLogin);
+  console.log(isLogin);
+
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="fixed" style={{ backgroundColor: "#212121" }}>
@@ -30,6 +38,33 @@ const Header = () => {
           >
             Simplified Expense
           </Typography>
+          <Button
+            id="basic-button"
+            aria-controls="basic-menu"
+            aria-haspopup="true"
+            color="inherit"
+            aria-expanded={open ? "true" : undefined}
+            onClick={handleClick}
+          >
+            Accounts
+          </Button>
+          <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            MenuListProps={{
+              "aria-labelledby": "basic-button",
+            }}
+          >
+            <MenuItem onClick={() => handleLink("/accounts/addtransaction")}>Add Transaction</MenuItem>
+            <MenuItem onClick={handleClose}>Equity</MenuItem>
+            <MenuItem onClick={handleClose}>Expenses</MenuItem>
+            <MenuItem onClick={handleClose}>Income</MenuItem>
+            <MenuItem onClick={handleClose}>Liabilities</MenuItem>
+            <MenuItem onClick={() => handleLink("/accounts/list")}>Balance Sheet</MenuItem>
+          </Menu>
+
           <Button color="inherit" onClick={() => handleLink("/about")}>
             About
           </Button>
@@ -37,7 +72,7 @@ const Header = () => {
             {" "}
             Contact Us
           </Button>
-          {!show ? (
+          {!isLogin ? (
             <>
               <Button color="inherit" onClick={() => handleLink("/login")}>
                 Login
@@ -49,7 +84,6 @@ const Header = () => {
               >
                 Get Started
               </Button>
-              
             </>
           ) : (
             userDetails.firstName

@@ -8,7 +8,7 @@ import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import useSession from "./useSession";
+// import useSession from "./useSession";
 
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
@@ -17,9 +17,9 @@ import { useHistory } from "react-router";
 
 const theme = createTheme();
 
-const Login = () => {
+const Login = ({setIsLogin,userDetails}) => {
   const history=useHistory();
-  const {userDetails,setIsLogin}=useSession();
+  // const {userDetails,setIsLogin}=useSession();
   const handleSubmit = (event) => {
     event.preventDefault();
     // const userDetails = JSON.parse(localStorage.getItem("userDetail")) || {};

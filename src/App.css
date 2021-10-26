@@ -47,6 +47,15 @@
 .services Card{
     width: 50%;
 }
+.transaction-grid{
+    padding: 20px;
+    margin: 20px;
+    width: 60%;
+    border-right: 1px solid lightgrey;
+}
+.transaction-grid:hover{
+    background-color:lightgrey;
+}
 
 /* .contactForm{
     display: flex;
